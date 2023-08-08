@@ -7,6 +7,7 @@ Created on Tue Aug  6 12:23:53 2019
 
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 from plotting_functions import figure_layout, set_size
   
 def table_plot(str_all, filename_tosave='example', pwd_tosave=None, hem_sep=True, mouse_name=None):
@@ -66,7 +67,7 @@ def table_plot(str_all, filename_tosave='example', pwd_tosave=None, hem_sep=True
     fig.tight_layout()
     
     if not(pwd_tosave):
-        pwd_tosave = '/home/benozzo/Desktop/' 
+        pwd_tosave = '%s/' % os.getcwd()
         filename_tosave = 'figure' 
     #plt.savefig('%s%s.pdf' % (pwd_tosave, filename_tosave), dpi=300)
     #plt.savefig('%s%s.png' % (pwd_tosave, filename_tosave), dpi=300)
@@ -157,7 +158,7 @@ def in_out_plot(str_all, filename_tosave='example', pwd_tosave=None, hem_sep=Tru
     plt.xlim([-shift, n_roi-shift])
     #plt.ylim([n_roi-shift, -shift])    
     if not(pwd_tosave):
-        pwd_tosave = '/home/benozzo/Desktop/' 
+        pwd_tosave = '%s/' % os.getcwd()
         filename_tosave = 'figure' 
     #plt.savefig('%s%s.pdf' % (pwd_tosave, filename_tosave), dpi=300)
     #plt.savefig('%s%s.png' % (pwd_tosave, filename_tosave), dpi=300)
@@ -265,7 +266,7 @@ def im_matrix(im_mtx, filename_tosave='example', pwd_tosave=None, vlim=None, bar
     plt.ylim([n_roi-shift, -shift])
     
     if not(pwd_tosave):
-        pwd_tosave = '/home/benozzo/Desktop/' 
+        pwd_tosave = '%s/' % os.getcwd()
         filename_tosave = 'figure' 
     #plt.savefig('%s%s.pdf' % (pwd_tosave, filename_tosave), dpi=300)
     #plt.savefig('%s%s.png' % (pwd_tosave, filename_tosave), dpi=300)

@@ -11,6 +11,7 @@ from matplotlib import cm
 from scipy import stats
 from joblib import Parallel, delayed
 import pdb
+import os
 
 def compute_stat_test(data, group):
     "one way anova and others simple test"
@@ -184,7 +185,7 @@ def spearman_rank_permutation(x, y, n_perm=1000):
     p_perm = (np.sum(np.abs(r_perm) >= np.abs(r))+1) / float(n_perm+1)
     return r, p_perm
 
-def mean_perNetwork_acrossSbj(X, pwd_tosave='/home/benozzo/Desktop/', filename='measure_perNetwork'):
+def mean_perNetwork_acrossSbj(X, pwd_tosave=None, filename='measure_perNetwork'):
     #X: [n_roi n_sbj]
     from library_networks import get_idx_network as get_network_index, get_idx_network_iso, get_idx_network_iso_small, get_idx_network_subSeparated
     from plotting_functions import figure_layout, set_size
@@ -250,6 +251,8 @@ def mean_perNetwork_acrossSbj(X, pwd_tosave='/home/benozzo/Desktop/', filename='
         ax[1].tick_params(labelsize=fontsize)
         ax[0] = set_size(w, h, ax[0]) #one axis is enough
         fig.tight_layout()
+        if not pwd_tosave:
+            pwd_tosave = '%s/' % os.getcwd()
         if is_iso:
             fig.savefig('%s%s_iso.svg' % (pwd_tosave, filename), format='svg')
         else:

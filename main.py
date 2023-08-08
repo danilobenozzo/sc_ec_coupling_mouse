@@ -4,6 +4,7 @@
 import scipy.stats as stats
 import matplotlib.pyplot as plt
 from scipy.io import loadmat, savemat
+from statsmodels.stats import multitest as mtest 
 import pickle
 import numpy as np
 import pdb
@@ -85,8 +86,7 @@ def plot_save_results(s_in, s_out, onlySCrate_within_in, onlySCrate_within_out, 
     for i_roi in range(nS):
         _, p_rois[i_roi] = stats.ttest_rel(s_in[:, i_roi], s_out[:, i_roi])
     
-    import statsmodels
-    reject, p_rois_corrected, _, _ = statsmodels.stats.multitest.multipletests(p_rois, alpha=.05, method='fdr_bh') #Benjamini/Hochberg 
+    reject, p_rois_corrected, _, _ = mtest.multipletests(p_rois, alpha=.05, method='fdr_bh') #Benjamini/Hochberg 
     
     w = 6.2
     h = 2.1 #3.1
@@ -116,7 +116,7 @@ def plot_save_results(s_in, s_out, onlySCrate_within_in, onlySCrate_within_out, 
     ax = set_size(w, h, ax)
     fig.tight_layout()
     
-    plt.savefig('%sincominVSoutgoing_smaller.svg' % (pwd_tosave), format='svg')
+    plt.savefig('%sincominVSoutgoing.svg' % (pwd_tosave), format='svg')
     plt.close()
     
     if permute_corr:
@@ -227,11 +227,15 @@ if __name__=='__main__':
         n_perm = 500
     else:
         n_perm = 2
+
+    pwd_current = '%s/' % os.getcwd()
+    pwd_data = '%sdata/' % pwd_current    
+    if not(os.path.isdir('%sfigure' % pwd_current)):
+        os.makedirs('%sfigure' % pwd_current)
     
     for i_sim , n_sim_i in enumerate(n_sim):
         
-        pwd_current = '/home/benozzo/paper_structure_effective_coupling/sc_ec_coupling_mouse/'
-        pwd_data = '%sdata/' % pwd_current
+
         dataset = loadmat('%sdcmECfc_singleMouse_sim%s.mat' % (pwd_data, n_sim_i), squeeze_me=True)
         fc = dataset['fc']
         A = dataset['A'] 
@@ -239,7 +243,6 @@ if __name__=='__main__':
         nS, _, n_sbj = A_sparse.shape
         p_val = .05
         
-        pwd_data = '%sdata/' % pwd_current
         mtx_str_log, mtx_str = load_structural_filter(pwd_data) #to be transposed to keep coherent notation with EC
         mtx_str_log = mtx_str_log.T
         mtx_str = mtx_str.T

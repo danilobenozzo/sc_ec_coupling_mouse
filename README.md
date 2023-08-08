@@ -28,7 +28,7 @@ To reproduce the main figures of the study, follow these steps:
     
     Specific figures from the manuscript (Figs 2,3) are saved as:  
     - in_out_coupling_perNetwork_bar_iso.svg
-    - incomingVSoutgoing_smaller.svg
+    - incomingVSoutgoing.svg
 
 5. Interpretation:
     
